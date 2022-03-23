@@ -1,0 +1,55 @@
+version: '3.5'
+
+services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8000 -jar application.war
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - RDS_HOSTNAME=postgres
+      - RDS_PORT=5432
+      - RDS_DB_NAME=compose-postgres
+      - RDS_USERNAME=compose-postgres
+      - RDS_PASSWORD=compose-postgres
+      - SNS_REGION=eu-west-1
+      - SNS_ACCESS_KEY=AKIAQZFFXDVHGIZ2KQ7F
+      - SNS_SECRET_KEY=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
+      - PORT=8080
+
+  postgres:
+    image: 'postgres:13.1-alpine'
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    depends_on:
+      - postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      SERVER_NAME: ${SERVER_NAME:-local.docker}
+    volumes:
+      - ./pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
