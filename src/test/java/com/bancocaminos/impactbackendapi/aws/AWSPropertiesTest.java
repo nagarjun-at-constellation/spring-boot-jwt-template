@@ -26,7 +26,7 @@ public class AWSPropertiesTest {
 
     @Test
     public void awspropertiesSuccessTest() {
-        assertEquals(awsProperties.getRegion(), "eu-west-1");
+        assertEquals("eu-west-1", awsProperties.getRegion());
     }
 
 }
