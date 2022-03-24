@@ -41,6 +41,7 @@ class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         user.setRole(userModel.getRole().name());
         user.setActive(true);
+        user.setUsing2FA(true);
         user.setMobileNumber(userModel.getMobileNumber());
         user.setPrefix(userModel.getPrefix());
         return userRepository.save(user);
