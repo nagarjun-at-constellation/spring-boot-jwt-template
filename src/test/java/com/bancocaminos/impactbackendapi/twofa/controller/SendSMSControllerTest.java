@@ -191,7 +191,7 @@ public class SendSMSControllerTest {
         master.setEnable2FA(false);
         Mockito.when(getMasterService().fetchMasterItem()).thenReturn(Optional.of(master));
 
-        getMvc().perform(request).andExpect(status().isContinue());
+        getMvc().perform(request).andExpect(status().isOk());
         verify(getUserService(), times(1)).findByEmail(EMAIL);
         verify(getMasterService(), times(1)).fetchMasterItem();
         verify(getUserService(), times(0)).updateSecretKey(anyInt(), any());
@@ -219,7 +219,7 @@ public class SendSMSControllerTest {
         master.setEnable2FA(true);
         Mockito.when(getMasterService().fetchMasterItem()).thenReturn(Optional.of(master));
 
-        getMvc().perform(request).andExpect(status().isContinue());
+        getMvc().perform(request).andExpect(status().isOk());
         verify(getUserService(), times(1)).findByEmail(EMAIL);
         verify(getMasterService(), times(1)).fetchMasterItem();
         verify(getUserService(), times(0)).updateSecretKey(anyInt(), any());
