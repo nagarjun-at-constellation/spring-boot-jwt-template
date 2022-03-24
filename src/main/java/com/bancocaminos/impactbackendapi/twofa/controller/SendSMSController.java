@@ -35,9 +35,9 @@ public class SendSMSController {
 			response.setMessage("Successfully updated the security key and sent the SMS to the client");
 			return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
 		} else if (smsServiceResponse.isTwoFADeactivated()) {
-			response.setStatus(HttpStatus.CONTINUE);
+			response.setStatus(HttpStatus.OK);
 			response.setMessage("Two factor authentication is deactivated, Please proceed");
-			return new ResponseEntity<>(response, responseHeaders, HttpStatus.CONTINUE);
+			return new ResponseEntity<>(response, responseHeaders, HttpStatus.OK);
 		}
 		response.setStatus(HttpStatus.UNAUTHORIZED);
 		response.setMessage("Unable to update the security key as the email entered is invalid");

@@ -1,5 +1,6 @@
 package com.bancocaminos.impactbackendapi.user.rest.model;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 @Data
 public class UserModel {
 
+    @Email
     @NotNull
     private String email;
 
